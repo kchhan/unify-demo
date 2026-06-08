@@ -1,17 +1,19 @@
-name: Maven Java Build
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: workflow-1
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch: # Enables manual triggering from the CloudBees UI
 
 jobs:
   build:
     steps:
-      - name: Checkout Repository
-        uses: cloudbees-io/checkout@v1
+      - name: Checkout code
+        uses: https://github.com/cloudbees-io/checkout@v1
 
-      - name: Compile and Test
-        uses: docker://maven:3.9.6-eclipse-temurin-17
-        run: mvn -B clean verify
+      - name: Build application
+        uses: docker://maven:3.8-openjdk-11
+        run: |
+          mvn clean package
